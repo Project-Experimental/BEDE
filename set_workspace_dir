@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#############################
+# Wriiten by Nakada Tokumei #
+#############################
+
+echo 'echo $(pwd) > $HOME/.linux_builder/directory'
+
+if [ ! -f $HOME/.linux_builder/directory ]; then
+    mkdir $HOME/.linux_builder/
+    touch $HOME/.linux_builder/directory
+fi
+
+echo $(pwd) > $HOME/.linux_builder/directory
