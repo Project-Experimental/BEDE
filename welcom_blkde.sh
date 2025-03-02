@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "#####################"
-echo " Welcom To the Tizen"
+echo " Welcom To the Linux Builder"
 echo " By Nakada Tokumei "
 echo "#####################"
 
@@ -17,14 +17,17 @@ terminate_docker="false"
 function update_workspace_path() {
 	if [ -f $HOME/.linux_builder/directory ];then
         	workspace_dir=`cat $HOME/.linux_builder/directory`
-    fi
+	fi
 }
 
 function run_docker() {
+    echo 'sudo docker run -h linux_builder --name ${docker_name} -it -d -v $workspace_dir:/home/linuxbuild/workspace -v /dev/:/dev -v /run/udev:/run/udev linux_builder:24.04 /bin/bash'
     sudo docker run -h linux_builder --name ${docker_name} -it -d -v $workspace_dir:/home/linuxbuild/workspace -v /dev/:/dev -v /run/udev:/run/udev linux_builder:24.04 /bin/bash
 }
 
 function set_docker_env() {
+	sudo docker exec -it ${docker_name} userdel -r ubuntu
+	sudo docker exec -it ${docker_name} groupdel ubuntu
 	sudo docker exec -it ${docker_name} groupadd -g ${user_gid} linuxbuild
 	sudo docker exec -it ${docker_name} useradd -u ${user_uid} -g ${user_gid} -ms /bin/bash linuxbuild
 	sudo docker exec -it ${docker_name} chown ${user_uid}:${user_gid} /home/linuxbuild
@@ -33,7 +36,8 @@ function set_docker_env() {
 }
 
 function exec_docker() {
-	sudo docker exec -it -u ${user_uid}:${user_gid} -w ${docker_name} /bin/bash
+	echo "sudo docker exec -it -u ${user_uid}:${user_gid} -w /home/linuxbuild ${docker_name} /bin/bash"
+	sudo docker exec -it -u ${user_uid}:${user_gid} -w /home/linuxbuild ${docker_name} /bin/bash
 }
 
 function kill_docker() {
