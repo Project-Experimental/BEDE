@@ -4,11 +4,12 @@
 # Wriiten by Nakada Tokumei #
 #############################
 
-echo 'echo $(pwd) > $HOME/.linux_builder/directory'
+echo 'echo $(pwd) > $HOME/.embedded_builder/directory'
 
-if [ ! -f $HOME/.linux_builder/directory ]; then
-    mkdir $HOME/.linux_builder/
-    touch $HOME/.linux_builder/directory
+if [ ! -f $HOME/.embedded_builder/directory ]; then
+    mkdir $HOME/.embedded_builder/
+    mkdir -p $HOME/.embedded_builder/pkg
+    touch $HOME/.embedded_builder/directory
 fi
 
-echo $(pwd) > $HOME/.linux_builder/directory
+echo $(pwd) > $HOME/.embedded_builder/directory
